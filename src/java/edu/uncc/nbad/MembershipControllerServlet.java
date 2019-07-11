@@ -33,9 +33,6 @@ public class MembershipControllerServlet extends HttpServlet {
             getServletContext().getRequestDispatcher("/signup.jsp").forward(request,response);
             PrintWriter out = response.getWriter();
             out.println("<p>Error! The action parameter is required, only signup value is valid</p>");
-     
-        
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -82,10 +79,9 @@ public class MembershipControllerServlet extends HttpServlet {
         String french = request.getParameter("french");
         String about = request.getParameter("about");
         
-        if (!(name.equals(username.equals(password.equals(address.equals(country.equals(zip.equals(
-        email.equals(sex.equals(about.equals(null)))))))))) 
-                && !(english.equals(german.equals(french.equals(null))))
-                ){
+        // Needs if statement finished
+        if () 
+            {
             PrintWriter out = response.getWriter();
             out.println("name: " + name);
             out.println("username: "+ username);
