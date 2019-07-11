@@ -78,9 +78,18 @@ public class MembershipControllerServlet extends HttpServlet {
         String german = request.getParameter("german");
         String french = request.getParameter("french");
         String about = request.getParameter("about");
-        
         // Needs if statement finished
-        if () 
+        String[] fields = new String[]{name, username, password, address, country, zip, email, sex, about};
+        String message = "Fill all the fields: ";
+        int check = 0;
+        for (int i = 0; i < fields.length; i++){
+            if(fields[i] == ""){
+                message.concat(fields[i] + ", ");
+                check++;
+            }
+        }
+        
+        if (check == 0) 
             {
             PrintWriter out = response.getWriter();
             out.println("name: " + name);
@@ -102,6 +111,10 @@ public class MembershipControllerServlet extends HttpServlet {
             }
             out.println("description: " + about);
 
+        }
+        else {
+            PrintWriter out = response.getWriter();
+            out.println(message);
         }
         }
         else
