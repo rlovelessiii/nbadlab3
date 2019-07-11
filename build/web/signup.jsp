@@ -15,7 +15,7 @@
     </head>
     <body>
         <h1>Registration Form</h1>
-        <form method="post" action="/Lab_3/Membership?action=signup">
+        <form method="post" action="/Lab_3/Membership?action=signup" id="form1">
             <span class="f3">Name:</span><input type="text" class="f1" name="name"><br>
             <span class="f3">Username:</span><input type="text" class="f1" name="username"><br>
             <span class="f3">Password:</span><input type="password" class="f1" name="password"><br>
@@ -33,7 +33,7 @@
             <input type="checkbox" name="french" class="f2" value="french"> French
             <input type="checkbox" name="german"class="f2"  value="german"> German<br>
             <span class="f3">About:</span><textarea rows="4" cols="50" class="f1" name="about"></textarea><br>
-            <input type="submit" value="Submit">
+            <input type="submit" value="Submit" form="form1">
         </form>
     </body>
 </html>
