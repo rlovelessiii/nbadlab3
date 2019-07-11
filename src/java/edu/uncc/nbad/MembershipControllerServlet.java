@@ -31,26 +31,53 @@ public class MembershipControllerServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        Object value = request.getParameter("action");
-        if(value.equals("signup"))
+        String value = request.getParameter("action");
+        if(value != null && value.equals("signup"))
         {
-        getServletContext().getRequestDispatcher("/../../Web Pages/signup.jsp").forward(request,response);
+        getServletContext().getRequestDispatcher("/signup.jsp").forward(request,response);
+        String name = request.getParameter("name");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String address = request.getParameter("address");
+        String country = request.getParameter("country");
+        String zip = request.getParameter("zip");
+        String email = request.getParameter("email");
+        String sex = request.getParameter("male") != null ? request.getParameter("male") : request.getParameter("female");
+        String english = request.getParameter("english");
+        String german = request.getParameter("german");
+        String french = request.getParameter("french");
+        String about = request.getParameter("about");
+        
+        if (!(name.equals(username.equals(password.equals(address.equals(country.equals(zip.equals(
+        email.equals(sex.equals(about.equals(null)))))))))) 
+                && !(english.equals(german.equals(french.equals(null))))
+                ){
+            PrintWriter out = response.getWriter();
+            out.println("name: " + name);
+            out.println("username: "+ username);
+            out.println("password: "+ password);
+            out.println("address: "+ address);
+            out.println("country: "+ country);
+            out.println("zip: "+ zip);
+            out.println("email: "+ email);
+            out.println("sex: "+ sex);
+            if (english != null){
+            out.println("lang: " + english);
+            }
+            if (german != null){
+            out.println("lang: " + german);
+            }
+            if (french != null){
+            out.println("lang: " + french);
+            }
+            out.println("description: " + about);
+
+        }
         }
         else
         {
             try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet MembershipControllerServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet MembershipControllerServlet at " + request.getContextPath() + "</h1>");
-            out.println("<p>Action is " + value + "</p>");
             out.println("<p>Error! The action parameter is required, only signup value is valid</p>");
-            out.println("</body>");
-            out.println("</html>");
         }
         }
         
