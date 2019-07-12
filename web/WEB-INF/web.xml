@@ -6,7 +6,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>MembershipControllerServlet</servlet-name>
-        <url-pattern>/Membership</url-pattern>
+        <url-pattern>/membership</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Stack;
 
 /**
  *
@@ -29,10 +30,17 @@ public class MembershipControllerServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-            getServletContext().getRequestDispatcher("/signup.jsp").forward(request,response);
-            PrintWriter out = response.getWriter();
-            out.println("<p>Error! The action parameter is required, only signup value is valid</p>");
+        
+        String action = request.getParameter("action");
+        
+        if (action.equals("signup")) {
+            getServletContext().getRequestDispatcher("/signup.jsp").forward(request, response);
+        }
+        else {
+            try (PrintWriter out = response.getWriter()) {
+                out.println("Error! the action parameter is required, only signup value is valid.");
+            }
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -61,68 +69,93 @@ public class MembershipControllerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
         
-        String value = request.getParameter("action");
-        if(value != null && value.equals("signup"))
-        {
-        String name = request.getParameter("name");
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String address = request.getParameter("address");
-        String country = request.getParameter("country");
-        String zip = request.getParameter("zip");
-        String email = request.getParameter("email");
-        String sex = request.getParameter("male") != null ? request.getParameter("male") : request.getParameter("female");
-        String english = request.getParameter("english");
-        String german = request.getParameter("german");
-        String french = request.getParameter("french");
-        String about = request.getParameter("about");
-        // Needs if statement finished
-        String[] fields = new String[]{name, username, password, address, country, zip, email, sex, about};
-        String message = "Fill all the fields: ";
-        int check = 0;
-        for (int i = 0; i < fields.length; i++){
-            if(fields[i] == ""){
-                message.concat(fields[i] + ", ");
-                check++;
-            }
-        }
+        String action = request.getParameter("action");
         
-        if (check == 0) 
-            {
-            PrintWriter out = response.getWriter();
-            out.println("name: " + name);
-            out.println("username: "+ username);
-            out.println("password: "+ password);
-            out.println("address: "+ address);
-            out.println("country: "+ country);
-            out.println("zip: "+ zip);
-            out.println("email: "+ email);
-            out.println("sex: "+ sex);
-            if (english != null){
-            out.println("lang: " + english);
+        if (action.equals("signup")) {
+            
+            // All parameter attribute names
+            String[] paramNames = { "name", "username", "password", "address", "country", "zip", "email", "sex", "about" };
+            String[] langNames = { "english", "french", "german" };
+            
+            // Arrays for each parameter value
+            String[] params = new String[paramNames.length];
+            String[] languages = new String[langNames.length];
+            
+            // Stack of invalid parameters
+            Stack<String> invalidParams = new Stack<>();
+            
+            // Form validation
+            boolean valid = true;
+            
+            /*
+            Add each from parameter ro the params array.
+            If the parameter is invalid, the form is invalidated and the parameter is added to the invalid stack
+            */
+            for (int i = 0; i < paramNames.length; i++) {
+                params[i] = request.getParameter(paramNames[i]);
+                if (params[i] != null && !params[i].equals("")) {
+                } else {
+                    valid = false;
+                    invalidParams.push(paramNames[i]);
+                }
             }
-            if (german != null){
-            out.println("lang: " + german);
+            
+            /*
+            Initialize a false boolean until at least *one* of the language checkboxes are confirmed checked.
+            If any of the checkboxes are checked, the language requirement is valid.
+            */
+            boolean langSelected = false;
+            for (int i = 0; i < langNames.length; i++) {
+                languages[i] = request.getParameter(langNames[i]);
+                if (languages[i] != null) {
+                    langSelected = true;
+                }
             }
-            if (french != null){
-            out.println("lang: " + french);
+            
+            // Add language to the invalid stack if no language was selected
+            if (!langSelected) {
+                valid = false;
+                invalidParams.push("language");
             }
-            out.println("description: " + about);
-
+            
+            try (PrintWriter out = response.getWriter()) {
+                
+                /*
+                If the form passes validation, each form attribute is displayed back to the user.
+                First, all EXCEPT the about section is displayed,
+                    following are the languages,
+                    finally ending with the about section.
+                */
+                
+                if (valid) {
+                    for (int i = 0; i < params.length - 1; i++) {
+                        out.println(paramNames[i] + ": " + params[i]);
+                    }
+                    for (int i = 0; i < languages.length; i++) {
+                        if (languages[i] != null) {
+                            out.println("language: " + languages[i]);
+                        }
+                    }
+                    out.println(paramNames[paramNames.length - 1] + ": " + params[params.length - 1]);
+                }
+                
+                /*
+                If the form is NOT valid,
+                each of the parameters stored the the invalidParam stack is displayed.
+                    (indicating which fields are missing/invalid)
+                */
+                
+                else {
+                    int length = invalidParams.size();
+                    out.println("Required Fields: ");
+                    for (int i = 0; i < length; i++) {
+                        out.println("*" + invalidParams.pop());
+                    }
+                }
+            }
         }
-        else {
-            PrintWriter out = response.getWriter();
-            out.println(message);
-        }
-        }
-        else
-        {
-            processRequest(request, response);
-        }
-        }
-    
+    }
 
     /**
      * Returns a short description of the servlet.

@@ -8,32 +8,76 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Signup</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="lab2css.css">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Sign-Up!</title>
+        <link rel="stylesheet" href="style.css">
     </head>
     <body>
         <h1>Registration Form</h1>
-        <form method="post" action="/Lab_3/Membership?action=signup" id="form1">
-            <span class="f3">Name:</span><input type="text" class="f1" name="name"><br>
-            <span class="f3">Username:</span><input type="text" class="f1" name="username"><br>
-            <span class="f3">Password:</span><input type="password" class="f1" name="password"><br>
-            <span class="f3">Address:</span><input type="text" class="f1" name="address"><br>
-            <span class="f3">Country:</span><select name="country" class="f1">
-                        <option value="unitedstates">United states</option>
-                        <option value="canada">Canada</option>
-                    </select>
+        
+        <form method="post" id="signupForm" action="/Lab_3/membership?action=signup">
+            
+            <label for="name">Name:</label>
+            <input type="text" name="name">
+            
             <br>
-            <span class="f3">ZIP Code:</span><input type="text" class="f1" name="zip"><br>
-            <span class="f3">Email:</span><input type="text" class="f1" name="email"><br>
-            <span class="f3">Sex:</span><input type="radio" name="male" class="f2" value="male">Male
-            <input type ="radio" name="female" class="f2" value="female">Female<br>
-            <span class="f3">Language:</span><input type="checkbox" class="f2" name="english" value="english"> English
-            <input type="checkbox" name="french" class="f2" value="french"> French
-            <input type="checkbox" name="german"class="f2"  value="german"> German<br>
-            <span class="f3">About:</span><textarea rows="4" cols="50" class="f1" name="about"></textarea><br>
-            <input type="submit" value="Submit" form="form1">
+            
+            <label for="username">Username:</label>
+            <input type="text" name="username">
+            
+            <br>
+            
+            <label for="password">Password:</label>
+            <input type="password" name="password">
+            
+            <br>
+            
+            <label for="address">Address:</label>
+            <input type="text" name="address">
+            
+            <br>
+            
+            <label for="country">Country:</label>
+            <select name="country">
+                <option value="">Please select</option>
+                <option value="United States">United States</option>
+                <option value="Canada">Canada</option>
+            </select>
+            
+            <br>
+            
+            <label for="zip">Zip Code:</label>
+            <input type="number" name="zip">
+            
+            <br>
+            
+            <label for="email">Email:</label>
+            <input type="email" name="email">
+            
+            <br>
+            
+            <label for="sex">Sex:</label>
+            <input type="radio" value="male" name="sex">Male
+            <input type="radio" value="female" name="sex">Female
+            
+            <br>
+            
+            <div>
+                <label>Language:</label>
+                <input type="checkbox" value="english" name="english">English
+                <input type="checkbox" value="french" name="french">French
+                <input type="checkbox" value="german" name="german">German
+            </div>
+            
+            <br>
+            
+            <label for="about">About:</label>
+            <textarea rows="3" cols="25" name="about"></textarea>
+            
+            <br>
+            
+            <button type="submit" form="signupForm">Submit</button>
+            
         </form>
     </body>
 </html>
